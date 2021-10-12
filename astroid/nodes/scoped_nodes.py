@@ -734,8 +734,12 @@ class Module(LocalsDictNodeNG):
             if self.package:
                 level = level - 1
                 package_name = self.name.rsplit(".", level)[0]
-            elif not os.path.exists("__init__.py") and os.path.exists(
-                modname.split(".")[0]
+            elif (
+                self.path
+                and not os.path.exists(os.path.dirname(self.path[0]) + "/__init__.py")
+                and os.path.exists(
+                    os.path.dirname(self.path[0]) + "/" + modname.split(".")[0]
+                )
             ):
                 level = level - 1
                 package_name = ""
