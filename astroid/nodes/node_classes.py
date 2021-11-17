@@ -1632,7 +1632,7 @@ class Call(NodeNG):
 
         :param parent: The parent node in the syntax tree.
         """
-        self.func: Optional[NodeNG] = None
+        self.func: NodeNG
         """What is being called."""
 
         self.args: typing.List[NodeNG] = []
@@ -1645,7 +1645,7 @@ class Call(NodeNG):
 
     def postinit(
         self,
-        func: Optional[NodeNG] = None,
+        func: NodeNG,
         args: Optional[typing.List[NodeNG]] = None,
         keywords: Optional[typing.List["Keyword"]] = None,
     ) -> None:
@@ -1657,6 +1657,8 @@ class Call(NodeNG):
 
         :param keywords: The keyword arguments being given to the call.
         """
+        if func is None:
+            raise ValueError
         self.func = func
         if args is not None:
             self.args = args
