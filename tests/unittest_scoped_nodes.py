@@ -43,7 +43,7 @@ from typing import Any, List, Union
 
 import pytest
 
-from astroid import MANAGER, builder, nodes, objects, test_utils, util
+from astroid import MANAGER, builder, nodes, objects, parse, test_utils, util
 from astroid.bases import BoundMethod, Generator, Instance, UnboundMethod
 from astroid.const import PY38_PLUS
 from astroid.exceptions import (
@@ -1669,6 +1669,19 @@ class ClassNodeTest(ModuleLoader, unittest.TestCase):
         assert isinstance(cls, nodes.ClassDef)
         with self.assertRaises(DuplicateBasesError):
             cls.mro()
+
+    @test_utils.require_version(minver="3.7")
+    def test_mro_windows_protocol(self):
+        module = parse(
+            """
+        from typing_extensions import Protocol
+
+        class MyClass(Protocol):
+            ...
+            """
+        )
+        print(module.body[1].mro())
+        raise AssertionError()
 
     def test_generator_from_infer_call_result_parent(self) -> None:
         func = builder.extract_node(
