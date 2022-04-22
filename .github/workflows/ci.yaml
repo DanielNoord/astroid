@@ -119,7 +119,7 @@ jobs:
       - name: Run pytest
         run: |
           . venv/bin/activate
-          pytest --cov --cov-report= tests/
+          pytest --cov --cov-report= tests/ --durations 20
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v3.0.0
         with:
@@ -168,7 +168,7 @@ jobs:
       - name: Run pytest
         run: |
           . venv/bin/activate
-          pytest --cov --cov-report= tests/
+          pytest --cov --cov-report= tests/ --durations 20
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v3.0.0
         with:
